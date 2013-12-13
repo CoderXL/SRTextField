@@ -55,7 +55,9 @@
 {
     self.delegate = self;
     
-    [self setTintColor:[UIColor blackColor]];
+    if ([self respondsToSelector:@selector(setTintColor:)]) {
+        [self setTintColor:[UIColor blackColor]];
+    }
     
     _toolbar = [[UIToolbar alloc] init];
     _toolbar.frame = CGRectMake(0, 0, self.window.frame.size.width, 35);
@@ -208,6 +210,10 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
+    if (!textField.window.isKeyWindow) {
+        [textField.window makeKeyAndVisible];
+    }
+    
     _textField = textField;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -244,6 +250,17 @@
         [textField setText:[dateFormatter stringFromDate:[NSDate date]]];
         
     }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if (self.nextBarButton.enabled) {
+        [self nextButtonIsClicked:self.nextBarButton];
+    } else {
+        [self endEditing:YES];
+    }
+    
+    return YES;
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
