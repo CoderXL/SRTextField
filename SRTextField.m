@@ -53,7 +53,7 @@
 
 - (void)setup
 {
-    self.delegate = self;
+//    self.delegate = self;
     
     if ([self respondsToSelector:@selector(setTintColor:)]) {
         [self setTintColor:[UIColor blackColor]];
@@ -87,6 +87,8 @@
     } else {
         originalPoint = self.superview.frame.origin;
     }
+    
+    self.inputAccessoryView = _toolbar;
 }
 
 - (void)markTextFieldsWithTagInView:(UIView*)view
@@ -135,7 +137,6 @@
 
 -(void) keyboardWillHide:(NSNotification *) notification
 {
-    
     NSTimeInterval duration = [[[notification userInfo] valueForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     
     [UIView animateWithDuration:duration animations:^{
@@ -210,9 +211,9 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    if (!textField.window.isKeyWindow) {
-        [textField.window makeKeyAndVisible];
-    }
+//    if (!textField.window.isKeyWindow) {
+//        [textField.window makeKeyAndVisible];
+//    }
     
     _textField = textField;
     
@@ -254,12 +255,19 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
+//    if (self.nextBarButton.enabled && textField.returnKeyType == UIReturnKeyNext) {
+//        [self nextButtonIsClicked:self.nextBarButton];
+//    } else if (textField.returnKeyType == UIReturnKeyDone) {
+//        [self endEditing:YES];
+//    }
+    
     if (self.nextBarButton.enabled) {
         [self nextButtonIsClicked:self.nextBarButton];
     } else {
         [self endEditing:YES];
     }
     
+
     return YES;
 }
 
@@ -376,3 +384,28 @@
 
 
 @end
+
+
+@interface SRKeyboardView ()
+
+@end
+
+@implementation SRKeyboardView
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        
+    }
+    
+    return self;
+}
+
+
+- (void)setPreviousBlock:(Block)previousBlock nextBlock:(Block)nextBlock andDoneBlock:(Block)doneBlock
+{
+
+}
+
+@end
+

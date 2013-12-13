@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^Block)(void);
+
 @class SRTextField;
 
 @protocol SRTextFieldDelegate <NSObject>
@@ -29,5 +31,11 @@
 @property (nonatomic, assign) id<SRTextFieldDelegate> textFieldDelegate;
 
 - (BOOL) validate;
+
+@end
+
+@interface SRKeyboardView : UIView
+
+- (void)setPreviousBlock:(Block)previousBlock nextBlock:(Block)nextBlock andDoneBlock:(Block)doneBlock;
 
 @end
